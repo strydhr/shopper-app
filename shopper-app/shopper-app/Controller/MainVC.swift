@@ -14,6 +14,11 @@ class MainVC: UIViewController {
     
     @IBOutlet weak var priceTxt: CurrencyTxtField!
     
+    
+    @IBOutlet weak var resultLbl: UILabel!
+    
+    @IBOutlet weak var hoursLbl: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -26,12 +31,29 @@ class MainVC: UIViewController {
         
         wageTxt.inputAccessoryView = calcBtn
         priceTxt.inputAccessoryView = calcBtn
+        
+        resultLbl.isHidden = true
+        hoursLbl.isHidden = true
     }
 
     @objc func calulate(){
+        if let wageText = wageTxt.text, let priceText = priceTxt.text{
+            if let wage = Double(wageText), let price = Double(priceText) {
+                view.endEditing(true)
+                resultLbl.isHidden = false
+                hoursLbl.isHidden = false
+                resultLbl.text = "\(Wage.getHours(forWage: wage, andPrice: price))"
+            }
+        }
         
    
     }
 
+    @IBAction func clearCalcisPressed(_ sender: Any) {
+        resultLbl.isHidden = true
+        hoursLbl.isHidden = true
+        wageTxt.text = ""
+        priceTxt.text = ""
+    }
 }
 
